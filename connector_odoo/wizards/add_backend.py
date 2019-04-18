@@ -25,8 +25,7 @@ class WizardModel(models.TransientModel):
 
         if active_model == 'product.product' :
            export_prod = self.env['product.product'].search(domain)
-           tmp_ids = [p.product_tmpl_id for p in export_prod]     
-           export = self.env['product.template'].search([('id', 'in', tmp_ids)])
+           export = export_prod.mapped('product_tmpl_id')
                  
         if active_model == 'product.category' :
            export = self.env['product.category'].search(domain)
