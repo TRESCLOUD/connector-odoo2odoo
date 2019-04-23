@@ -362,10 +362,12 @@ class OdooBackend(models.Model):
     
     
     @api.multi
-    def _export_from_date(self, model, from_date_field):
+    def _export_from_date(self, model, from_date_field, filters=[]):
         self.ensure_one()
         import_start_time = datetime.now()
-        filters=[('write_date', '<', fields.Datetime.to_string(import_start_time))]
+        filters.extend(
+            [('write_date', '<', fields.Datetime.to_string(import_start_time))]
+        )
         
         for backend in self:
             from_date = backend[from_date_field]
