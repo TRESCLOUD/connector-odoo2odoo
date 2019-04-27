@@ -6,7 +6,8 @@ import socket
 import logging
 import xmlrpclib
 
-import odoorpc 
+import odoorpc
+from odoo import _
 from odoorpc.error import RPCError
 from odoo.addons.component.core import AbstractComponent
 from odoo.addons.queue_job.exception import RetryableJobError
