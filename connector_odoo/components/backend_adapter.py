@@ -5,6 +5,7 @@
 import socket
 import logging
 import xmlrpclib
+import urllib2
 
 import odoorpc
 from odoo import _
@@ -49,10 +50,16 @@ class OdooAPI(object):
     @property
     def api(self):
         if self._api is None:
+            pwd_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+            pwd_mgr.add_password(None, 'https://'+self._location.hostname, self._location.login, 
+                                 self._location.password)
+            auth_handler = urllib2.HTTPBasicAuthHandler(pwd_mgr)
+            opener = urllib2.build_opener(auth_handler)
             api = odoorpc.ODOO(
                 host=self._location.hostname,
                 port=self._location.port,
                 protocol=self._location.protocol,
+                opener=opener
             )
             try:
                 api.login(
